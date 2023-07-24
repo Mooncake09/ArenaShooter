@@ -70,3 +70,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+/[Aa]ssets/Samples
+/[Aa]ssets/SimpleNaturePack/Scenes
+.vsconfig
+
+Assets/Samples.meta
