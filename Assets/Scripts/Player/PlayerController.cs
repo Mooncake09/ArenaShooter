@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     private float _speed;
     [SerializeField]
     private float _cameraSensetivitySpeed;
-    [SerializeField]
-    private float _gravity = -9.8f;
 
     private CharacterController _characterController;
     private Vector2 _cameraRotation;
@@ -23,13 +21,9 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        //_rb = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        //if (_rb != null)
-        //    _rb.freezeRotation = true;
     }
 
     private void Update()
@@ -54,15 +48,26 @@ public class PlayerController : MonoBehaviour
 
     private void Move(Vector3 direction)
     {
-        var scaledSpeed = _speed * Time.deltaTime;
-        var newDirection = new Vector3(direction.x, 0, direction.z);
-        newDirection = Vector3.ClampMagnitude(newDirection, scaledSpeed);
-        //newDirection.y = _gravity * Time.deltaTime;
-        _characterController.Move(_characterController.transform.TransformDirection(newDirection));
+        if (direction.sqrMagnitude < 0.01)
+            return;
+        var scaledMoveSpeed = _speed * Time.deltaTime;
+        // For simplicity's sake, we just keep movement in a single plane here. Rotate
+        // direction according to world Y rotation of player.
+        var move = Quaternion.Euler(0, transform.eulerAngles.y, 0) * new Vector3(direction.x, 0, direction.z);
+
+        if (!_characterController.isGrounded)
+            move += Physics.gravity;
+
+        move = Vector3.ClampMagnitude(move, _speed) * scaledMoveSpeed;
+
+
+
+        _characterController.Move(move);
     }
 
     private void Look(Vector2 rotation)
     {
+        Debug.Log(rotation);
         if (rotation.sqrMagnitude < 0.01)
             return;
         var scaledRotateSpeed = _cameraSensetivitySpeed * Time.deltaTime;
