@@ -851,7 +851,7 @@ MonoBehaviour:
   _speed: 5
   _cameraSensetivitySpeed: 10
   _jumpForce: 0
-  _gravityMultiplier: 0.5
+  _gravityMultiplier: 0.01
   _fallVelocity: 0
   moveAction:
     m_Name: Move
