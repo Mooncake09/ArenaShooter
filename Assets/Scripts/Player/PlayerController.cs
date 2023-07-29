@@ -5,11 +5,16 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3.0f;
+    [SerializeField]
+    private float _cameraSensetive = 3.0f;
 
     private CharacterController _characterController;
     private Rigidbody _rb;
 
     private Vector3 _directionMovement;
+    private Vector3 _rotation;
+
+    public InputAction _lookAction;
 
     private void Awake()
     {
@@ -22,7 +27,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Look();
         ApplyMove();
+    }
+
+    private void OnEnable()
+    {
+        _lookAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _lookAction.Disable();
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -40,5 +56,18 @@ public class PlayerController : MonoBehaviour
     {
         var currentPosition = context.ReadValue<Vector2>();
         _directionMovement = new Vector3(currentPosition.x, 0, currentPosition.y);
+    }
+
+    public void Look()
+    {
+        var cameraPostition = _lookAction.ReadValue<Vector2>();
+        if (cameraPostition.sqrMagnitude < 0.01)
+            return;
+        var scaledRotateSpeed = _cameraSensetive * Time.deltaTime;
+
+        _rotation.y += cameraPostition.x * scaledRotateSpeed;
+        _rotation.x = Mathf.Clamp(_rotation.x - cameraPostition.y * scaledRotateSpeed, -90, 90);
+
+        transform.rotation = Quaternion.Euler(_rotation);
     }
 }
