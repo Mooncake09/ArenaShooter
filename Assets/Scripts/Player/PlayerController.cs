@@ -3,20 +3,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private float _speed = 3.0f;
+
     private CharacterController _characterController;
     private Rigidbody _rb;
-    private PlayerControllerActions _playerControllerActions;
+
+    private Vector3 _directionMovement;
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
         _rb = GetComponent<Rigidbody>();
-
-        _playerControllerActions = new PlayerControllerActions();
-        //playerControllerActions.Enable(); //Enable every map (like Player at this example)
-        _playerControllerActions.Player.Enable(); //Enable only Player map
-        _playerControllerActions.Player.Jump.performed += Jump;
-        _playerControllerActions.Player.Movement.performed += Movement_performed;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -24,16 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        _playerControllerActions.Player.Movement.ReadValue<Vector2>();
-    }
-
-    private void Movement_performed(InputAction.CallbackContext context)
-    {
-        Debug.Log(context);
-        var inputVector = context.ReadValue<Vector2>();
-        var speed = 5f;
-
-        _rb.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * speed * Time.deltaTime, ForceMode.Force);
+        ApplyMove();
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -43,5 +32,13 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"Jump! {context.phase}");
             _rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
         }
+    }
+
+    private void ApplyMove() => _characterController.Move(_directionMovement * _speed * Time.deltaTime);
+
+    public void Move(InputAction.CallbackContext context)
+    {
+        var currentPosition = context.ReadValue<Vector2>();
+        _directionMovement = new Vector3(currentPosition.x, 0, currentPosition.y);
     }
 }
