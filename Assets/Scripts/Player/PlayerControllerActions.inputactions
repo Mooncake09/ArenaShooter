@@ -15,19 +15,19 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseX",
+                    "name": "Look",
                     "type": "PassThrough",
-                    "id": "ee371ff8-038d-4bfa-a986-0eaf9cb49d2a",
-                    "expectedControlType": "Axis",
+                    "id": "1caa1c77-f6cd-469a-a2ba-e10b5e463aa5",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseY",
-                    "type": "PassThrough",
-                    "id": "c50810ec-8108-492b-b697-2ed5b4cb3dc4",
-                    "expectedControlType": "Axis",
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "66ba06e6-0877-4c63-bd2b-7371651fd4f5",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -35,7 +35,7 @@
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
+                    "name": "WASD",
                     "id": "37cda778-2970-4754-8244-63a9112ab2f9",
                     "path": "2DVector",
                     "interactions": "",
@@ -91,23 +91,23 @@
                 },
                 {
                     "name": "",
-                    "id": "2c82eb79-01e3-4af9-bb9d-e496edc41400",
-                    "path": "<Mouse>/delta/x",
+                    "id": "3ac4193e-66e2-4e5d-8b50-963bef6020a0",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseX",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "77e88920-0cda-4292-a49a-e8c9869721d0",
-                    "path": "<Mouse>/delta/y",
+                    "id": "d6d8df5d-1466-4282-9373-4653644e421d",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseY",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
